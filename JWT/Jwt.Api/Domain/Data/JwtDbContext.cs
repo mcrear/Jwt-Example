@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jwt.Api.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Jwt.Api.Domain
+namespace Jwt.Api.Domain.Data
 {
     public partial class JwtDbContext : DbContext
     {
@@ -21,10 +22,7 @@ namespace Jwt.Api.Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=JwtDb; Integrated Security=true;Connect Timeout=30;Encrypt=false;");
-            }
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

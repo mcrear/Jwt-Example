@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Jwt.Api.Domain
+namespace Jwt.Api.Domain.Model
 {
     public partial class User
     {
