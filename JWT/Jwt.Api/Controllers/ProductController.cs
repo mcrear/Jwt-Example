@@ -75,7 +75,7 @@ namespace Jwt.Api.Controllers
             return BadRequest(res.Message);
         }
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(ProductResource product, int id)
         {
             if (!ModelState.IsValid)

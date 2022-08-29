@@ -5,10 +5,10 @@ namespace Jwt.Api.Resources
     public class ProductResource
     {
         [Required]
-        public int Name { get; set; }
+        public string Name { get; set; }
         [Required]
         public string Category { get; set; }
         [Required]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
