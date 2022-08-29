@@ -12,14 +12,24 @@ namespace Jwt.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        #region Properties
+
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
+
+        #endregion Properties
+
+        #region Ctor
 
         public ProductController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
             _mapper = mapper;
         }
+
+        #endregion Ctor
+
+        #region Methods
 
         [HttpGet]
         public async Task<IActionResult> GetList()
@@ -81,5 +91,7 @@ namespace Jwt.Api.Controllers
                 return Ok(res.Data);
             return BadRequest(res.Message);
         }
+
+        #endregion Methods
     }
 }
