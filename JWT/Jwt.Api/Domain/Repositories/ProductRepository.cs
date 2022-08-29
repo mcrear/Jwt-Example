@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jwt.Api.Domain.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : BaseRepository, IProductRepository
     {
-        private readonly JwtDbContext jwtDbContext;
-
-        public ProductRepository(JwtDbContext jwtDbContext)
+        public ProductRepository(JwtDbContext jwtDbContext) : base(jwtDbContext)
         {
-            this.jwtDbContext = jwtDbContext;
         }
 
         public async Task AddProduct(Product product)
