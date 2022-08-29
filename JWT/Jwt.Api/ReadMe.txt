@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Data Source=.;Initial Catalog=JwtDb; Integrated Security=true;Connect Timeout=30;Encrypt=false;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Domain

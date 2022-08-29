@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JET.API", "JET.API\JET.API.csproj", "{5EADD560-E046-4B27-9B61-E459D30923DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jwt.Api", "Jwt.Api\Jwt.Api.csproj", "{868E64EA-C659-4E25-8D49-E577ADC7E913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5EADD560-E046-4B27-9B61-E459D30923DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EADD560-E046-4B27-9B61-E459D30923DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EADD560-E046-4B27-9B61-E459D30923DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EADD560-E046-4B27-9B61-E459D30923DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{868E64EA-C659-4E25-8D49-E577ADC7E913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{868E64EA-C659-4E25-8D49-E577ADC7E913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{868E64EA-C659-4E25-8D49-E577ADC7E913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{868E64EA-C659-4E25-8D49-E577ADC7E913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
