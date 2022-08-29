@@ -5,6 +5,8 @@ using Jwt.Api.Domain.Uow;
 using Jwt.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Jwt.Api.Security.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,25 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<JwtDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+});
+
+builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("TokenOptions"));
+
+var config = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidAudience = config.Audience,
+        ValidIssuer = config.Issuer,
+        IssuerSigningKey = SignHandle.GetSecurityKey(config.SecurityKey)
+    };
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -38,6 +59,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
