@@ -27,14 +27,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
-        ValidateAudience = true,
-        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateIssuer = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.Zero,
 
-        ValidAudience = config.Audience,
-        ValidIssuer = config.Issuer,
+        ValidAudience = "",//config.Audience,
+        ValidIssuer = "",//config.Issuer,
         IssuerSigningKey = SignHandle.GetSecurityKey(config.SecurityKey)
     };
 });

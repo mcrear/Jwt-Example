@@ -22,9 +22,6 @@ namespace Jwt.Api.Services
             if (!userRes.Success)
                 return new AccessTokenResponse(userRes.Message);
 
-            if (userRes.Data.RefreshTokenEndDate < DateTime.Now)
-                return new AccessTokenResponse("Refresh token süresi sona ermiştir.");
-
             var token = _tokenHandler.CreateAccessToken(userRes.Data);
             await _userService.SaveRefreshToken(userRes.Data.Id, token.RefreshToken);
 
@@ -37,6 +34,9 @@ namespace Jwt.Api.Services
 
             if (!userRes.Success)
                 return new AccessTokenResponse(userRes.Message);
+
+            if (userRes.Data.RefreshTokenEndDate < DateTime.Now)
+                return new AccessTokenResponse("Refresh token süresi sona ermiştir.");
 
             var token = _tokenHandler.CreateAccessToken(userRes.Data);
             await _userService.SaveRefreshToken(userRes.Data.Id, token.RefreshToken);
