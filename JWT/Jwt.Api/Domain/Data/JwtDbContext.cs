@@ -42,8 +42,6 @@ namespace Jwt.Api.Domain.Data
             {
                 entity.ToTable("User");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Email).HasMaxLength(100);
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);

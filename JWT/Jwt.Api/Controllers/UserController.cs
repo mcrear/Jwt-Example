@@ -21,6 +21,7 @@ namespace Jwt.Api.Controllers
             _mapper = mapper;
         }
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> GetUser()
         {
             IEnumerable<Claim> claims = User.Claims;

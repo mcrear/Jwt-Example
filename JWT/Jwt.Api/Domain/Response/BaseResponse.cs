@@ -5,11 +5,19 @@
         public bool Success { get; set; }
         public string Message { get; set; }
         public T Data { get; set; }
-        public BaseResponse(bool success, string message, T data)
+        private BaseResponse(bool success, string message, T data)
         {
             Success = success;
             Message = message;
             Data = data;
+        }
+        public BaseResponse(string message) : this(false, message, null)
+        {
+
+        }
+        public BaseResponse(T data) : this(true, string.Empty, data)
+        {
+
         }
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Jwt.Api.Domain.Response
 {
-    public class UserListResponse:BaseResponse<IEnumerable<User>>
+    public class UserListResponse : BaseResponse<IEnumerable<User>>
     {
-        public UserListResponse(IEnumerable<User> user) : base(true, "", user)
+        public UserListResponse(IEnumerable<User> user) : base(user)
         {
 
         }
-        public UserListResponse(string message) : base(false, message, null)
+        public UserListResponse(string message) : base(message)
         {
 
         }

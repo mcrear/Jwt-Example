@@ -4,11 +4,11 @@ namespace Jwt.Api.Domain.Response
 {
     public class ProductListResponse : BaseResponse<IEnumerable<Product>>
     {
-        public ProductListResponse(IEnumerable<Product> data) : base(true, "", data)
+        public ProductListResponse(IEnumerable<Product> data) : base(data)
         {
 
         }
-        public ProductListResponse(string message) : base(false, message, null)
+        public ProductListResponse(string message) : base(message)
         {
 
         }

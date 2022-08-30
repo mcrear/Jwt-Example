@@ -5,11 +5,11 @@ namespace Jwt.Api.Domain.Response
 {
     public class ProductResponse : BaseResponse<Product>
     {
-        public ProductResponse(Product product) : base(true, "", product)
+        public ProductResponse(Product product) : base(product)
         {
 
         }
-        public ProductResponse(string message) : base(false, message, null)
+        public ProductResponse(string message) : base(message)
         {
 
         }
