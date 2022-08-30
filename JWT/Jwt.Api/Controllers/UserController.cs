@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Jwt.Api.Domain.Model;
 using Jwt.Api.Domain.Services;
 using Jwt.Api.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -39,9 +40,16 @@ namespace Jwt.Api.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
         public async Task<IActionResult> AddUser(UserResource user)
         {
-            return Ok(user);
+            User usr = _mapper.Map<UserResource, User>(user);
+            var res = await _userService.Add(usr);
+
+            if (res.Success)
+                return Ok(res.Data);
+
+            return BadRequest(res.Message);
         }
     }
 }

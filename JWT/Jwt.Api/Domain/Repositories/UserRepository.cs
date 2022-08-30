@@ -11,7 +11,7 @@ namespace Jwt.Api.Domain.Repositories
     {
         private readonly IDataProtector _protector;
         private readonly TokenOptions _tokenOptions;
-        public UserRepository(JwtDbContext jwtDbContext, IDataProtector protector, IOptions<TokenOptions> options) : base(jwtDbContext)
+        public UserRepository(JwtDbContext jwtDbContext, IDataProtectionProvider protector, IOptions<TokenOptions> options) : base(jwtDbContext)
         {
             _protector = protector.CreateProtector("SecretKey");
             _tokenOptions = options.Value;
