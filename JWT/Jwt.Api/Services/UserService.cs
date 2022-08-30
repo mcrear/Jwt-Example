@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Jwt.Api.Domain.Model;
+﻿using Jwt.Api.Domain.Model;
 using Jwt.Api.Domain.Repositories;
 using Jwt.Api.Domain.Response;
 using Jwt.Api.Domain.Services;

@@ -42,6 +42,7 @@ namespace Jwt.Api.Domain.Repositories
         {
             var findedUser = await jwtDbContext.Users.FindAsync(user.Id);
             findedUser.RefreshToken = null;
+            findedUser.RefreshTokenEndDate = DateTime.MinValue;
         }
 
         public async Task SaveRefreshToken(int userId, string refreshToken)
