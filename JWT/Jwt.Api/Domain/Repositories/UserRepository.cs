@@ -9,17 +9,14 @@ namespace Jwt.Api.Domain.Repositories
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly IDataProtector _protector;
         private readonly TokenOptions _tokenOptions;
-        public UserRepository(JwtDbContext jwtDbContext, IDataProtectionProvider protector, IOptions<TokenOptions> options) : base(jwtDbContext)
+        public UserRepository(JwtDbContext jwtDbContext, IOptions<TokenOptions> options) : base(jwtDbContext)
         {
-            _protector = protector.CreateProtector("SecretKey");
             _tokenOptions = options.Value;
         }
 
         public async Task Add(User user)
         {
-            user.Password = _protector.Protect(user.Password);
             await jwtDbContext.Users.AddAsync(user);
         }
 
@@ -35,7 +32,7 @@ namespace Jwt.Api.Domain.Repositories
 
         public async Task<User> GetUseryByEmailAndPassword(string email, string password)
         {
-            return await jwtDbContext.Users.Where(x => x.Email == email && password == _protector.Unprotect(password)).FirstOrDefaultAsync();
+            return await jwtDbContext.Users.Where(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
         }
 
         public async Task RemoveRefreshTokenAsync(User user)

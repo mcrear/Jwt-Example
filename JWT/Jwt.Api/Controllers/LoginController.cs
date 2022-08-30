@@ -1,20 +1,23 @@
 ﻿using Jwt.Api.Domain.Services;
 using Jwt.Api.Extensions;
 using Jwt.Api.Resources;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jwt.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
         private readonly IAuthService _authService;
+      //  private readonly IDataProtector _protector;
 
-        public LoginController(IAuthService authService)
+        public LoginController(IAuthService authService/*, IDataProtectionProvider protectionProvider*/)
         {
             _authService = authService;
+           // _protector = protectionProvider.CreateProtector(nameof(ControllerBase));
         }
 
         [HttpPost]
@@ -23,7 +26,8 @@ namespace Jwt.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
 
-            var token = await _authService.CreateAccessToken(login.Email, login.Password);
+          // var token = await _authService.CreateAccessToken(login.Email, _protector.Protect(login.Password));
+            var token = await _authService.CreateAccessToken(login.Email,login.Password);
             if (!token.Success)
                 return NotFound(token.Message);
 
