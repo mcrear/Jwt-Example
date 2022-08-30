@@ -47,6 +47,11 @@ namespace Jwt.Api.Security.Token
             user.RefreshToken = null;
         }
 
+        public void RevokeRefreshToken(string refreshToken)
+        {
+            throw new NotImplementedException();
+        }
+
         private IEnumerable<Claim> GetClaim(User user)
         {
             var claims = new List<Claim>() {

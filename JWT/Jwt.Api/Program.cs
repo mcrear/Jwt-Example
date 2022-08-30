@@ -42,6 +42,8 @@ builder.Services.AddDataProtection();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddScoped<IUow, Uow>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();

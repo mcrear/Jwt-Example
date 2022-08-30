@@ -6,5 +6,6 @@ namespace Jwt.Api.Security.Token
     {
         AccessToken CreateAccessToken(User user);
         void RevokeRefreshToken(User user);
+        void RevokeRefreshToken(string refreshToken);
     }
 }
