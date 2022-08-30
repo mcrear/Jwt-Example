@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Jwt.Api.Domain.Services;
 using Jwt.Api.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Jwt.Api.Controllers
 {
@@ -17,12 +19,26 @@ namespace Jwt.Api.Controllers
             _userService = userService;
             _mapper = mapper;
         }
-
+        [Authorize]
         public async Task<IActionResult> GetUser()
         {
-            return Ok();
+            IEnumerable<Claim> claims = User.Claims;
+
+            if (claims == null)
+                return Unauthorized();
+
+            string userId = claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First().Value;
+            var user = await _userService.GetUserById(int.Parse(userId));
+
+            if (user == null)
+                return NotFound();
+            if (!user.Success)
+                return BadRequest();
+
+            return Ok(user);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> AddUser(UserResource user)
         {
             return Ok(user);

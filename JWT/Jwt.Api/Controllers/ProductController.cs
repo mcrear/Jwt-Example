@@ -5,9 +5,11 @@ using AutoMapper;
 using Jwt.Api.Resources;
 using Jwt.Api.Extensions;
 using Jwt.Api.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Jwt.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
