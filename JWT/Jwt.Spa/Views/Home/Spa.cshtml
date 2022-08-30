@@ -1,0 +1,231 @@
+﻿<h1>spa</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Uye Kayıt Formu</h2>
+            <form>
+                <div class="form-control-lg">
+                    <input type="text" class="form-control" id="firstName" name="firstName" value="Ahmet" placeholder="İsminiz" />
+                </div>
+
+                <div class="form-control-lg">
+                    <input type="text" class="form-control" id="lastName" name="lastName" value="Aydeniz" placeholder="Soyisminiz" />
+                </div>
+
+                <div class="form-control-lg">
+                    <input type="email" class="form-control" id="email" name="email" value="mcrear.master@gmail.comm" placeholder="Emailiniz" />
+                </div>
+
+                <div class="form-control-lg">
+                    <input type="password" class="form-control" id="password" name="password" value="Password" placeholder="Şifreniz" />
+                </div>
+
+                <div class="form-control-lg">
+                    <button type="button" id="btnSave" class="btn-success" name="btnSave">Kaydet</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div id="userDiv"></div>
+            <div id="loginDiv" style="display:none">
+                <h2>Uye Kayıt Formu</h2>
+                <form>
+                    <div class="form-control-lg">
+                        <input type="email" class="form-control" id="loginEmail" name="loginEmail" value="mcrear.master@gmail.comm" placeholder="Emailiniz" />
+                    </div>
+
+                    <div class="form-control-lg">
+                        <input type="password" class="form-control" id="loginPassword" name="loginPassword" value="Password" placeholder="Şifreniz" />
+                    </div>
+
+                    <div class="form-control-lg">
+                        <button type="button" id="btnLogin" class="btn-success" name="btnSave">Giriş</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="product"></div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            getUserData();
+            showProduct();
+            $("#btnSave").click(function () {
+                let firstName = $("#firstName").val();
+                let lastName = $("#lastName").val();
+                let email = $("#email").val();
+                let password = $("#password").val();
+
+                let user = { "FirstName": firstName, "LastName": lastName, "Email": email, "Password": password };
+
+                var url = "http://localhost:5065/api/user";
+
+                $.ajax({
+                    type: "POST",
+                    crossDomain: true,
+                    url: url,
+                    data: JSON.stringify(user),
+                    success: function (data) {
+                        console.table(data);
+                    },
+                    error: function (data) { console.error(data); },
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+            })
+
+            function getUserData() {
+
+                let url = "http://localhost:5065/api/user";
+                let accessToken = localStorage.getItem("token");
+
+                console.log("!!!!!!!!!!!!!!!! getUserData");
+
+                $.ajax({
+                    type: "GET",
+                    crossDomain: true,
+                    async: false,
+                    url: url,
+                    beforeSend: function (xhr, textStatus) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + accessToken)
+                    },
+                    statusCode: {
+                        401: function (xhr) {
+                            console.log(xhr);
+                            console.log("!!!!!!!!!!!!!!!!!!!!!! 401 e girdi");
+                            getUserDataRefreshToken()
+                        }
+                    },
+                    success: function (data, textStatus, xhr) {
+                        console.log("!!!!!!!!!!!!!!!!!!!!!! success e girdi");
+                        console.log(xhr.status);
+                        console.table(data);
+                        $("#loginDiv").hide();
+                        $("#userDiv").show().html("").append(
+                            '<table><tr><td>Id</td><td>' + data.data.id + '</td></tr><tr><td>FirstName</td><td>' + data.data.firstName + '</td></tr><tr><td>LastName</td><td>' + data.data.lastName + ' </td></tr> <tr><td>Email </td><td>' + data.data.email + ' </td> </tr> </table> ');
+                    },
+                    error: function (data, xhr) {
+                        console.log("!!!!!!!!!!!!!!!!!!!!!! error e girdi " + data); console.error(data);
+                    },
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+            }
+
+            function getUserDataRefreshToken() {
+                let refreshToken = localStorage.getItem("refreshToken");
+                let url = "http://localhost:5065/api/Login/RefreshToken";
+
+                var data = { "RefreshToken": refreshToken };
+
+                $.ajax({
+                    type: "POST",
+                    crossDomain: true,
+                    url: url,
+                    async: false,
+                    data: JSON.stringify(data),
+                    statusCode: {
+                        401: function (xhr) {
+                            console.log("401 e girdi");
+                            $("#loginDiv").show();
+                            $("#userDiv").hide();
+
+                        },
+                    },
+                    success: function (data) {
+                        console.table(data);
+
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("refreshToken", data.refreshToken);
+
+                        getUserData();
+
+                    },
+                    error: function (data) {
+
+                        $("#loginDiv").show();
+                        $("#userDiv").hide();
+                        console.error(data);
+                    },
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+            }
+
+            $("#btnLogin").click(function () {
+                let email = $("#loginEmail").val();
+                let password = $("#loginPassword").val();
+
+                let user = { "Email": email, "Password": password };
+
+                var url = "http://localhost:5065/api/Login/AccessToken";
+
+                $.ajax({
+                    type: "POST",
+                    crossDomain: true,
+                    url: url,
+                    data: JSON.stringify(user),
+                    success: function (data) {
+                        console.table(data);
+
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("refreshToken", data.refreshToken);
+
+                        getUserData();
+
+                    },
+                    error: function (data) { console.error(data); },
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+            })
+
+            function showProduct() {
+
+                let url = "http://localhost:5065/api/product";
+                let accessToken = localStorage.getItem("token");
+
+                $.ajax({
+                    type: "GET",
+                    crossDomain: true,
+                    url: url,
+                    beforeSend: function (xhr, textStatus) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + accessToken)
+                    },
+                    statusCode: {
+                        401: function (xhr) {
+                            console.log(xhr);
+                            console.log("!!!!!!!!!!!!!!!!!!!!!! 401 e girdi");
+                            getUserDataRefreshToken()
+                        }
+                    },
+                    success: function (products) {
+                        var item = "<br>";
+                        $.each(products, (key, val) => {
+                            item += val.name + "<br>";
+                        });
+
+                        $("#product").html("").append(item);
+                    },
+                    error: function (data) {
+                        console.error(data);
+                    },
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+            }
+        })
+
+    </script>
+    }
